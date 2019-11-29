@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="card card-default">
     <div class="card-header">
-        Create Category
+        {{ isset($category)  ? 'Edit Category' : 'Create category' }}
     </div>
     <div class="card-body">
-        @if ($errors->any())
+        @if($errors->any())
             <div class="alert alert-danger">
                 <ul class="list-group">
-                    @foreach ($errors->all() as $error)
+                    @foreach($errors->all() as $error)
                         <li class="list-group-item text-danger">
                             {{ $error }}
                         </li>
@@ -18,16 +17,21 @@
                 </ul>
             </div>
         @endif
-        <form method="post" action="{{ route('categories.store') }}">
+        <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST">
             @csrf
+            @if(isset($category))
+                @method('PUT')
+            @endif
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Category Name" minlength="2" required>
+                <input type="text" id="name" class="form-control" name="name" value="{{ isset($category) ? $category->name : '' }}">
             </div>
             <div class="form-group">
-                <button type="submit" name="submit" id="submit" class="btn btn-primary">Add Category</button>
+                <button class="btn btn-success">
+                    {{ isset($category) ? 'Update Category': 'Add Category' }}
+                </button>
             </div>
         </form>
-    </div>
+  </div>
 </div>
 @endsection
