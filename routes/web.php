@@ -16,11 +16,14 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+// Home page route
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Category Resources
+// Category Resources
 Route::resource('categories', 'CategoriesController');
 
-//Posts Resources
+// Posts Resources
 Route::resource('posts', 'PostsController');
+
+// Trashed Post route
+Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
