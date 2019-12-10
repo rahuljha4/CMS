@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Posts\CreatePostsRequest;
+use Illuminate\Support\Facades\Storage;
 
 use App\Post;
 
@@ -93,11 +94,22 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        $post->delete();
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
 
-        session()->flash('success', 'Post Trashed Succesfully');
+        if ($post->trashed())
+        {
+            // To delete the image of tyhe post
+            Storage::delete($post->image);
+            $post->forceDelete();
+            session()->flash('success', 'Post Deleted Succesfully');
+        }
+        else
+        {
+            $post->delete();
+            session()->flash('success', 'Post Trashed Succesfully');
+        }
 
         // Redirect User
         return redirect(route('posts.index'));
