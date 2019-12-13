@@ -8,7 +8,6 @@
     <div class="card card-default">
     <div class="card-header">Posts</div>
     <div class="card-body">
-        @if ($posts->count() > 0)
             <table class="table">
                 <thead>
                     <th>Image</th>
@@ -18,7 +17,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach($posts as $post)
+                    @forelse($posts as $post)
                     <tr>
                         <td>
                             <img src="{{ asset("storage/" . $post->image)}}" alt="" width="120px" height="60px" style="display:block">
@@ -43,14 +42,15 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4">No Post Yet</td>
+                        </tr>
+
+                    @endforelse
                 </tbody>
             </table>
-        @else
-            <h3 class="text-center">
-                No Post Yet
-            </h3>
-        @endif
+
     </div>
     </div>
 @endsection

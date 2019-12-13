@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Posts\CreatePostsRequest;
+use App\Http\Requests\Posts\UpdatePostRequest;
 use Illuminate\Support\Facades\Storage;
 
 use App\Post;
@@ -46,7 +47,8 @@ class PostsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
-            'image' => $image
+            'image' => $image,
+            'published_at' => $request->published_at
         ]);
         // Flash Message
         session()->flash('success', 'Post Created Succesfully');
@@ -71,9 +73,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.create')->with('post', $post);
     }
 
     /**
@@ -83,9 +85,28 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $data = $request->only(['title', 'description', 'content', 'published_at']);
+
+        // Check if new image is uploaded
+        if ($request->hasFile('image'))
+        {
+            // Upload new one
+            $image = $request->image->store('posts');
+
+            // Delete old one
+            Storage::delete($post->image);
+
+            $data['image'] = $image;
+        }
+
+        // Update Data
+        $post->update($data);
+
+        session()->flash('success', 'Post updated successfully.');
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -100,7 +121,7 @@ class PostsController extends Controller
 
         if ($post->trashed())
         {
-            // To delete the image of tyhe post
+            // To delete the image of the post from the server.
             Storage::delete($post->image);
             $post->forceDelete();
             session()->flash('success', 'Post Deleted Succesfully');
