@@ -96,7 +96,7 @@ class PostsController extends Controller
             $image = $request->image->store('posts');
 
             // Delete old one
-            Storage::delete($post->image);
+            $post->deleteImage();
 
             $data['image'] = $image;
         }
@@ -122,7 +122,8 @@ class PostsController extends Controller
         if ($post->trashed())
         {
             // To delete the image of the post from the server.
-            Storage::delete($post->image);
+            $post->deleteImage();
+
             $post->forceDelete();
             session()->flash('success', 'Post Deleted Succesfully');
         }
@@ -143,7 +144,7 @@ class PostsController extends Controller
      */
     public function trashed()
     {
-        $trashed = Post::withTrashed()->get();
+        $trashed = Post::onlyTrashed()->get();
 
         return view('posts.index')->withPosts($trashed);
     }

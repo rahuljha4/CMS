@@ -12,4 +12,13 @@ class Post extends Model
     protected $fillable = [
         'title', 'description', 'content', 'image', 'published_at'
     ];
+
+    /**
+     * Function to delete image from the storage
+     * @return void
+     */
+    public function deleteImage()
+    {
+        Storage::delete($this->image);
+    }
 }

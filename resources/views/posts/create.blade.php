@@ -24,24 +24,24 @@
             @endif
             <div class="form-group">
                 <label for="name">Title</label>
-                <input type="text" id="title" class="form-control" name="title" value="{{ old('title', $post->title) }}">
+                <input type="text" id="title" class="form-control" name="title" value="{{ isset($post)  ? $post->title : '' }}">
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" class="form-control" id="description" cols="50" rows="5">{{ old('description', $post->description) }}</textarea>
+                <textarea name="description" class="form-control" id="description" cols="50" rows="5">{{ isset($post)  ? $post->description : ''}}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="content">Content</label>
                 {{-- <textarea name="content" class="form-control" id="content" cols="50" rows="5"></textarea> --}}
-                <input id="content" type="hidden" name="content" value="{{ old('content', $post->content) }}">
+                <input id="content" type="hidden" name="content" value="{{ isset($post)  ? $post->content : '' }}">
                 <trix-editor input="content"></trix-editor>
             </div>
 
             <div class="form-group">
                 <label for="published_at">Publised At</label>
-                <input type="text" id="published_at" class="form-control" name="published_at" value="{{ old('published_at', $post->published_at) }}">
+                <input type="text" id="published_at" class="form-control" name="published_at" value="{{ isset($post)  ? $post->published_at : '' }}">
             </div>
 
             @if (isset($post))
