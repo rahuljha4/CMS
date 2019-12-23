@@ -31,9 +31,13 @@
                             Edit
                         </a>
                     @else
-                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info text-white btn-sm">
+                    <form action="{{ route('restore-posts', $post->id) }}" method="post">
+                        @csrf
+                        @method('put')
+                        <button type="submit" class="btn btn-info text-white btn-sm">
                             Restore
-                        </a>
+                        </button>
+                    </form>
                     @endif
                     </td>
                     <td>
