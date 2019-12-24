@@ -12,6 +12,7 @@
             <table class="table">
                 <thead>
                     <th>Name</th>
+                    <th>Post Count</th>
                     <th></th>
                 </thead>
 
@@ -20,6 +21,9 @@
                     <tr>
                         <td>
                         {{ $categories->name }}
+                        </td>
+                        <td>
+                            {{ $categories->posts->count() }}
                         </td>
                         <td>
                         <a href="{{ route('categories.edit', $categories->id) }}" class="btn btn-info text-white btn-sm">

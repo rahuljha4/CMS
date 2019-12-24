@@ -12,6 +12,7 @@
             <thead>
                 <th>Image</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th></th>
                 <th></th>
             </thead>
@@ -26,19 +27,24 @@
                         {{ $post->title }}
                     </td>
                     <td>
-                    @if (!$post->trashed())
-                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info text-white btn-sm">
-                            Edit
+                        <a href="{{ route('categories.edit', $post->category->id) }}">
+                            {{ $post->category->name }}
                         </a>
-                    @else
-                    <form action="{{ route('restore-posts', $post->id) }}" method="post">
-                        @csrf
-                        @method('put')
-                        <button type="submit" class="btn btn-info text-white btn-sm">
-                            Restore
-                        </button>
-                    </form>
-                    @endif
+                    </td>
+                    <td>
+                        @if (!$post->trashed())
+                            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info text-white btn-sm">
+                                Edit
+                            </a>
+                        @else
+                        <form action="{{ route('restore-posts', $post->id) }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-info text-white btn-sm">
+                                Restore
+                            </button>
+                        </form>
+                        @endif
                     </td>
                     <td>
                         <form action="{{ route('posts.destroy', $post->id) }}" method="post">
@@ -52,7 +58,11 @@
                 </tr>
                 @empty
                     <tr>
-                        <td colspan="4">No Post Yet</td>
+                        <td colspan="4">
+                            <h3 class="text-center">
+                                No Post Yet!
+                            </h3>
+                        </td>
                     </tr>
 
                 @endforelse
