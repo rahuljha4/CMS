@@ -16,17 +16,20 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-// Home page route
-Route::get('/home', 'HomeController@index')->name('home');
 
-// Category Resources
-Route::resource('categories', 'CategoriesController');
+Route::middleware(['auth'])->group(function() {
+    // Home page route
+    Route::get('/home', 'HomeController@index')->name('home');
 
-// Posts Resources
-Route::resource('posts', 'PostsController');
+    // Category Resources
+    Route::resource('categories', 'CategoriesController');
 
-// Trashed Post route
-Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
+    // Posts Resources
+    Route::resource('posts', 'PostsController');
 
-// Restore post
-Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-posts');
+    // Trashed Post route
+    Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
+
+    // Restore post
+    Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-posts');
+});
