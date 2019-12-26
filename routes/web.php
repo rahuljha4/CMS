@@ -27,6 +27,10 @@ Route::middleware(['auth'])->group(function() {
     // Posts Resources
     Route::resource('posts', 'PostsController');
 
+    // Tags Resources
+     Route::resource('tags', 'TagsController');
+
+
     // Trashed Post route
     Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
 
