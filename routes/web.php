@@ -11,7 +11,11 @@
 |
 */
 
+use App\Http\Controllers\Blog\PostsController;
+
 Route::get('/', 'WelcomeController@index');
+
+Route::get('blog/posts/{post}', [PostsController::class, 'show'])->name('blog.show');
 
 Auth::routes();
 
@@ -27,7 +31,6 @@ Route::middleware(['auth'])->group(function() {
 
     // Tags Resources
      Route::resource('tags', 'TagsController');
-
 
     // Trashed Post route
     Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');

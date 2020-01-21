@@ -51,12 +51,13 @@ class PostsController extends Controller
         $image = $request->image->store('posts');
         // Create post
         $post = Post::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'image' => $image,
-            'category_id' => $request->category,
-            'published_at' => $request->published_at
+            'title'         => $request->title,
+            'description'   => $request->description,
+            'content'       => $request->content,
+            'image'         => $image,
+            'category_id'   => $request->category,
+            'published_at'  => $request->published_at,
+            'user_id'       => auth()->user()->id
         ]);
 
         if ($request->tags)

@@ -37,8 +37,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Function to check the user is admin or not.
+     */
     public function isAdmin()
     {
         return $this->role == 'admin';
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

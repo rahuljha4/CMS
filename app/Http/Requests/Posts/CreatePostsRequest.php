@@ -26,9 +26,9 @@ class CreatePostsRequest extends FormRequest
     {
         return [
             'title' => 'require|unique:Posts',
-            'description' => 'require',
-            'image' => 'require',
-            'category'  => 'require'
+            'description' => 'required',
+            'image' => 'required',
+            'category'  => 'required'
         ];
     }
 }
